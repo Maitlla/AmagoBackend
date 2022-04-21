@@ -1,7 +1,8 @@
-// Ejemplo básico de Express con tareas, GET, POST, PUT, DELETE, (crear, modificar, eliminar....)
+// Ejemplo básico de Express con tareas, GET, POST, PUT, DELETE, (crear, modificar, eliminar, consultar)
 import express from "express";
 const app = express();
 const PORT = 3000; // puerto local se debería cambiar a otro para subirlo
+//http://localhost:3000/api/v0.0/tasks/   para que se vea en la web
 
 // Se añaden tareas para probar
 const tasks = [
@@ -37,10 +38,10 @@ const tasks = [
     }
 ]
 
-// 
+// .json() este método ya hace el parseo para que nos devuelva objetos en vez de string, de los endpoint (get, post, put, delete)
 app.use(express.json())
 
-// Muestra las tareas, la lista de tareas
+// Muestra las tareas
 app.get("/api/v0.0/tasks/",(request, response)=>{
     response.json(tasks)
 })
