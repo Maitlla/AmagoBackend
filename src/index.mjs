@@ -34,7 +34,7 @@ const tasks = [
     {
         id: 5,
         description: "Recoger pedido",
-        done: false
+        done: true
     }
 ]
 
