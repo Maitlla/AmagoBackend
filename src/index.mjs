@@ -18,28 +18,24 @@ const port = 3000; // puerto local se debería cambiar a otro para subirlo
 // hace lo mismo que app.use(express.json()) pero se aplica a los endpoints que se quiera, todos menos GET
 const jsonParser = express.json();
 
-// Crear usuarios
+            // ------------------ Usuarios -----------------------
+
+app.get("/api/v0.0/user/", getTaskController);
+
 app.post("/api/v0.0/user/", jsonParser, postUserController);
 
-// Definición de ruta que se llamará cuando se reciba una petición HTTP GET, con una dirección ('/') relativa al directorio raíz
-/*
-app.get('/', (req, res) => {
-    res.send('Hello World!') // En el cuerpo de la respuesta, se responde con el mensaje "Hello World"
-  });
- */
+app.put("/api/v0.0/user/", jsonParser, putTaskController);
 
-// Muestra las tareas
+app.delete("/api/v0.0/user/", jsonParser, deleteTaskController);
+
+            // ------------------ Usuarios -----------------------
+
 app.get("/api/v0.0/tasks/", getTaskController);
 
-
-// Crea una tarea, y la añade en la última posición
 app.post("/api/v0.0/task/", jsonParser, postTaskController);
 
-// Modifica una tarea dejandola en la misma posición
-// Modifica la descripción, o el estado, false o true, el id tiene que ser el mismo, para que sea esa tarea
 app.put("/api/v0.0/task/", jsonParser, putTaskController);
 
-// Elimina una tarea, la que se le indique
 app.delete("/api/v0.0/task/", jsonParser, deleteTaskController);
 
 // arrancar express F5
