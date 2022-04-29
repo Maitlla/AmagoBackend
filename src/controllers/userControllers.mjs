@@ -2,7 +2,7 @@
 import { user } from "../models/userModels.mjs";
 
 // GET endpoint para consultar, muestra la lista de usuarios
-export function getUserController (request, response) {
+export function getUsersController (request, response) {
     response.json(user)
 };
 

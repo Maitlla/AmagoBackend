@@ -2,7 +2,7 @@
 import { tasks } from "../models/tasksModels.mjs"
 
 // GET endpoint para consultar, muestra la lista de tareas
-export function getTaskController (request, response) {
+export function getTasksController (request, response) {
     response.json(tasks)
 };
 

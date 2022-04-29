@@ -1,10 +1,12 @@
 // Ejemplo básico de Express con tareas, GET, POST, PUT, DELETE, (crear, modificar, eliminar, consultar)
 import express from "express";
-import { postUserController } from "./controllers/userControllers.mjs";
-import { deleteTaskController, getTaskController, postTaskController, putTaskController } from "./controllers/tasksControllers.mjs";
+import { getUsersController, postUserController, putUserController, deleteUserController } from "./controllers/userControllers.mjs";
+import { getTasksController, postTaskController, putTaskController, deleteTaskController } from "./controllers/tasksControllers.mjs";
 
 // para incluir el módulo de Express, no es necesario en Javascript moderno (.mjs) al importar import express from "express";
 //const express = require('express')
+
+//const PATH_PREFIX = "/api/v0.0"
 
 // Crear una aplicación de Express
 const app = express(); 
@@ -20,17 +22,17 @@ const jsonParser = express.json();
 
             // ------------------ Usuarios -----------------------
 
-app.get("/api/v0.0/user/", getTaskController);
+app.get("/api/v0.0/users/", getUsersController);
 
 app.post("/api/v0.0/user/", jsonParser, postUserController);
 
-app.put("/api/v0.0/user/", jsonParser, putTaskController);
+app.put("/api/v0.0/user/", jsonParser, putUserController);
 
-app.delete("/api/v0.0/user/", jsonParser, deleteTaskController);
+app.delete("/api/v0.0/user/", jsonParser, deleteUserController);
 
             // ------------------ Usuarios -----------------------
 
-app.get("/api/v0.0/tasks/", getTaskController);
+app.get("/api/v0.0/tasks/", getTasksController);
 
 app.post("/api/v0.0/task/", jsonParser, postTaskController);
 
