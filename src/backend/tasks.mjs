@@ -28,6 +28,12 @@ db.run(`
         )
 `);
 
+/*
+db.run(`
+    INSERT
+`);
+  */
+
 export function sqlCallback (error, data) {
     console.log("error:", error, "data:", data);
     if ( error ) throw error;
@@ -75,19 +81,5 @@ export function insertTasks ( tasksObject, callback) {
     db.run(sql,callback);
 }
 
-
-
-/*
-export function getLastTasks (minutes, callback) {
-    const afterTime = Date.now() - 60000 * minutes;
-    db.all(`
-        SELECT *
-        FROM messages
-        WHERE time >= ${afterTime}
-        `,
-        callback
-    )
-}
-*/
 
 export default db;

@@ -17,7 +17,7 @@ export function putTaskController (request, response) {
     const updatedTask = request.body;
     const oldTaskIdx = tasks.findIndex(
         item => item.id === updatedTask.id
-    )
+    );
     tasks[oldTaskIdx] = updatedTask;
     response.sendStatus(200);
 };
