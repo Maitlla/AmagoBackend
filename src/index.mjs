@@ -1,8 +1,9 @@
 // Ejemplo básico de Express con tareas, GET, POST, PUT, DELETE, (crear, modificar, eliminar, consultar)
 import express from "express";
 import { authMiddleware } from "./middleware/authorization.mjs";
-import { getUsersController, postUserController, putUserController, deleteUserController } from "./controllers/userControllers.mjs";
-import { getTasksController, postTaskController, putTaskController, deleteTaskController } from "./controllers/tasksControllers.mjs";
+import { getAllUsersController, getOneUserController, postUserController, putUserController, deleteUserController } from "./controllers/userControllers.mjs";
+import { getAllTasksController, getOneTaskController, postTaskController, putTaskController, deleteTaskController } from "./controllers/tasksControllers.mjs";
+import { validateNewTaskJSON, validateTaskJSON, validateDeleteTaskJSON, validateUserJSON, validateDeleteUserJSON } from "./middleware/jsonValidator.mjs";
 
 // para incluir el módulo de Express, no es necesario en Javascript moderno (.mjs) al importar import express from "express";
 //const express = require('express')
@@ -23,27 +24,31 @@ const jsonParser = express.json();
 
             // ------------------ Usuarios -----------------------
 
-app.get(prefijoRuta + "/users/", authMiddleware, getUsersController);
+app.get(prefijoRuta + "/users/", authMiddleware, getAllUsersController);
 
-app.post(prefijoRuta + "/user/", authMiddleware, jsonParser, postUserController);
+app.get(prefijoRuta + "/user/", authMiddleware, getOneUserController);
 
-app.post(prefijoRuta + "/public/user/", jsonParser, postUserController);
+app.post(prefijoRuta + "/user/", authMiddleware, validateUserJSON, jsonParser, postUserController);
+
+app.post(prefijoRuta + "/public/user/", jsonParser, validateUserJSON, postUserController);
 
 app.put(prefijoRuta + "/user/", authMiddleware, jsonParser, putUserController);
 
-app.delete(prefijoRuta + "/user/", authMiddleware, jsonParser, deleteUserController);
+app.delete(prefijoRuta + "/user/", authMiddleware, validateDeleteUserJSON, jsonParser, deleteUserController);
 
             // ------------------ Usuarios -----------------------
 
-app.get(prefijoRuta + "/tasks/", authMiddleware, getTasksController);
+app.get(prefijoRuta + "/tasks/", authMiddleware, getAllTasksController);
 
-app.post(prefijoRuta + "/task/", authMiddleware, jsonParser, postTaskController);
+app.get(prefijoRuta + "/task/", authMiddleware, getOneTaskController);
 
-app.post(prefijoRuta + "/public/task/", jsonParser, postTaskController);
+app.post(prefijoRuta + "/task/", authMiddleware, validateNewTaskJSON, jsonParser, postTaskController);
 
-app.put(prefijoRuta + "/task/", authMiddleware, jsonParser, putTaskController);
+app.post(prefijoRuta + "/public/task/", validateNewTaskJSON, jsonParser, postTaskController);
 
-app.delete(prefijoRuta + "/task/", authMiddleware, jsonParser, deleteTaskController);
+app.put(prefijoRuta + "/task/", authMiddleware, validateTaskJSON, jsonParser, putTaskController);
+
+app.delete(prefijoRuta + "/task/", authMiddleware, validateDeleteTaskJSON, jsonParser, deleteTaskController);
 
 // arrancar express F5
 // para que express se empiece aejecutar (poner al final del código)
