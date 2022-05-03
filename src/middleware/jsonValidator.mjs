@@ -1,6 +1,6 @@
 // Schema validaciones
 import { validate } from "jsonschema"; // npm install jsonschema
-
+import { taskss } from "../models/taskss.mjs"
 import { userSchema, deleteUserSchema } from "../schemas/usersSchemas.mjs";
 import { taskSchema, newTaskSchema, deleteTaskSchema } from "../schemas/tasksSchemas.mjs";
 

@@ -6,9 +6,9 @@ import { taskss } from "../models/taskss.mjs"
 export function getAllUsersController (request, response) {
     taskss.all(
         `SELECT id, name, password FROM users`,
-        (err,data)=>{
-            if ( err ) {
-                console.error(err);
+        (error,data)=>{
+            if ( error ) {
+                console.error(error);
                 response.sendStatus(500) // Error de la BD no puede devolver la información que se le ha pedido
             } else {
                 response.json(data)
@@ -20,12 +20,14 @@ export function getAllUsersController (request, response) {
 // GET endpoint para consultar, que devuelve un usuario concreto
 export function getOneUserController (request, response) {
     try {
-        const user = users.find(
-            item => item.id === parseInt(request.params.id)
-        )
-        if ( user ) response.json(user)
-        else response.sendStatus(404); // Error tarea no encontrada
-    } catch (err) {
+        const user = users.find(item => item.id === parseInt(request.params.id));
+        if ( user ) {
+            response.json(user);
+        } else {
+            console.error(error);
+            response.sendStatus(404); // Error usuario no encontrado
+        }    
+    } catch (error) {
         response.sendStatus(400) // Error genérico del cliente
     }
 }
@@ -35,9 +37,9 @@ export function postUserController (request, response) {
     const { name, password } = request.body;
     taskss.run(
         `INSERT INTO users(name, password) VALUES ("${name}", "${password}")`,
-        (err)=>{
-            if (err) {
-                console.error(err);
+        (error)=>{
+            if (error) {
+                console.error(error);
                 response.sendStatus(500) // Error de la Base de Datos
             } else {
                 response.sendStatus(201) // ALL OK
@@ -46,25 +48,34 @@ export function postUserController (request, response) {
     )
 }
 
-
 // PUT endpoint para editar/modificar, modifica datos de un usuario
-export function putUserController (request, response) {
-    const updatedUser = request.body;
-    const oldUserIdx = users.findIndex(
-        item => item.id === updatedUser.id
+export function putUserController(request, response) {
+    taskss.run(
+        `UPDATE users SET name = "${request.body.name}" WHERE id = "${request.body.id}"`,
+        (error) => {
+            if (error) {
+                console.error(error);
+                response.sendStatus(500) // Error de la Base de Datos
+            } else {
+                response.sendStatus(201) // ALL OK
+            }
+        }
     )
-    users[oldUserIdx] = updatedUser;
-    response.sendStatus(200);
 };
 
 // DELETE endpoint para eliminar/borrar, elimina un usuario, el que se le indique
-export function deleteUserController (request, response) {
-    const updatedUser = request.body;
-    const oldUserIdx = users.findIndex(
-        item => item.id === updatedUser.id
+export function deleteUserController(request, response) {
+    taskss.run(
+        `DELETE FROM users WHERE id = "${request.body.id}"`,
+        (error) => {
+            if (error) {
+                console.error(error);
+                response.sendStatus(500) // Error de la Base de Datos
+            } else {
+                response.sendStatus(200) // ALL OK
+            }
+        }
     )
-    users.splice(oldUserIdx, 1); // se elimina un elemento
-    response.sendStatus(200)
 };
 
 
@@ -76,6 +87,28 @@ export function getUsersController (request, response) {
 export function postUserController (request, response) {
     users.push(request.body);
     response.sendStatus(201)
+};
+*/
+
+/*
+export function putUserController (request, response) {
+    const updatedUser = request.body;
+    const oldUserIdx = users.findIndex(
+        item => item.id === updatedUser.id
+    )
+    users[oldUserIdx] = updatedUser;
+    response.sendStatus(200);
+};
+*/
+
+/*
+export function deleteUserController (request, response) {
+    const updatedUser = request.body;
+    const oldUserIdx = users.findIndex(
+        item => item.id === updatedUser.id
+    )
+    users.splice(oldUserIdx, 1); // se elimina un elemento
+    response.sendStatus(200)
 };
 */
 
