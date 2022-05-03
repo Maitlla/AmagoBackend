@@ -1,4 +1,5 @@
-// Funciones de autorización, autenticación....
+// Funciones de autorización, autenticación.... para los endpoint que requieren atenticación
+import { taskss } from "../models/taskss.mjs"
 import { users } from "../models/userModels.mjs";
 //import { tasks } from "../models/tasksModels.mjs";
 
@@ -18,8 +19,8 @@ function decodeAuthBasic (headerContent) {
     try {
         const [ method, token ] = headerContent.split(" ");
         const tokenString = atob(token);
-        const [ username, password ] = tokenString.split(":");
-        return { method, username, password }
+        const [ name, password ] = tokenString.split(":");
+        return { method, name, password }
     } catch (error) {
         throw "Malformed authentication"; // throw para lanzar una excepción (lanzar un error)
     }
@@ -29,21 +30,31 @@ function decodeAuthBasic (headerContent) {
                           // solicitud, respuesta, (salta, para que la solicitud no quede colgada)
 export function authMiddleware( request, response, next ) {
     try {                                        // objeto Request, (Content-Type':), Authorization: token
-        const { method, username, password } = decodeAuthBasic(request.headers.authorization);
+        const { method, name, password } = decodeAuthBasic(request.headers.authorization);
 
         if ( method != "Basic" ) throw "Invalid authorization method. Use Basic instead."
     
+        taskss.get(
+            `SELECT * FROM users WHERE name = "${name}" AND password = "${password}"`,
+            (error, data) => {
+                if (error) {
+                    console.error(error);
+                    response.sendStatus(500);
+                } else if (data) {
+                    next(); // si el usuario es correcto salta...
+                } else {
+                    throw "Usuario inválido o contraseña incorrecta"
+                }
+            }
+        )
+        /*
         const user = users.find(
             item => item.name === username && item.password === password
         )
-    
-        if ( user ) { 
-            next() // si el usuario es correcto salta...
-        }  else {
-            throw "Authorization error"
-        }
-    } catch (err) {
-        console.error(err);
+        */
+
+    } catch (error) {
+        console.error(error);
         response.sendStatus(401)
         return;
     }

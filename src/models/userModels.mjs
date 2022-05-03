@@ -1,8 +1,9 @@
 export const users = [
+   /*
     {
-        "id": 1,
+        "id": 6,
         "name": "Maite",
         "password": "abc123"
     }
-    
+    */
 ];

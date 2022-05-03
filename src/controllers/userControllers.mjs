@@ -1,10 +1,10 @@
 // Controladores: endpoints y Try catch
 import { users } from "../models/userModels.mjs";
-import { tasks } from "../models/tasks.mjs"
+import { taskss } from "../models/taskss.mjs"
 
 // GET que devuelve el id, el nombre y el password, guardados en la BD
 export function getAllUsersController (request, response) {
-    db.all(
+    taskss.all(
         `SELECT id, name, password FROM users`,
         (err,data)=>{
             if ( err ) {
@@ -33,8 +33,8 @@ export function getOneUserController (request, response) {
 // POST endpoint para crear/añadir, crear usuarios
 export function postUserController (request, response) {
     const { name, password } = request.body;
-    db.run(
-        `INSERT INTO tasks(name, password) VALUES ("${name}", ${password})`,
+    taskss.run(
+        `INSERT INTO users(name, password) VALUES ("${name}", "${password}")`,
         (err)=>{
             if (err) {
                 console.error(err);

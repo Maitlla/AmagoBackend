@@ -1,10 +1,10 @@
 // Controladores: endpoints y Try catch
 import { tasks } from "../models/tasksModels.mjs"
-import { tasks as cosa } from "../models/tasks.mjs"
+import { taskss } from "../models/taskss.mjs"
 
 // GET que devuelve el id, la descripción y el estado done de las tareas, guardadas en la BD
 export function getAllTasksController (request, response) {
-    db.all(
+    taskss.all(
         `SELECT id, description, done FROM tasks`,
         (err,data)=>{
             if ( err ) {
@@ -33,7 +33,7 @@ export function getOneTaskController (request, response) {
 // POST endpoint para crear/añadir, crea una tarea y la añade en la última posición
 export function postTaskController (request, response) {
     const { description, done } = request.body;
-    db.run(
+    taskss.run(
         `INSERT INTO tasks(description, done) VALUES ("${description}", ${done})`,
         (err)=>{
             if (err) {
