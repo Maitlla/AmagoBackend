@@ -29,7 +29,7 @@ app.get(prefijoRuta + "/users/", authMiddleware, getAllUsersController);
 
 app.get(prefijoRuta + "/public/users/", getAllUsersController);
 
-//app.get(prefijoRuta + "/user/", authMiddleware, getOneUserController);
+app.get(prefijoRuta + "/user/:id", getOneUserController);
 
 app.post(prefijoRuta + "/user/", authMiddleware, validateUserJSON, jsonParser, postUserController);
 
@@ -43,13 +43,13 @@ app.delete(prefijoRuta + "/user/", authMiddleware, validateDeleteUserJSON, jsonP
 
 app.delete(prefijoRuta + "/public/user/", validateDeleteUserJSON, jsonParser, deleteUserController);
 
-            // ------------------ Usuarios -----------------------
+            // ------------------ Tareas -----------------------
 
 app.get(prefijoRuta + "/tasks/", authMiddleware, getAllTasksController);
 
 app.get(prefijoRuta + "/public/tasks/", getAllTasksController);
 
-//app.get(prefijoRuta + "/task/", authMiddleware, getOneTaskController);
+app.get(prefijoRuta + "/task/:id", getOneTaskController);
 
 app.post(prefijoRuta + "/task/", authMiddleware, validateNewTaskJSON, jsonParser, postTaskController);
 

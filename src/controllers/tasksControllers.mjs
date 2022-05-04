@@ -5,11 +5,11 @@ import { taskss } from "../models/taskss.mjs" // taskss.db
 // Command.CommandText = "select last_insert_rowid()"; para recuperar/ver Id que se ha creado
 
 // GET que devuelve el id, la descripción y el estado done de las tareas, guardadas en la BD
-export function getAllTasksController (request, response) {
+export function getAllTasksController(request, response) {
     taskss.all(
         `SELECT id, description, done FROM tasks`,
-        (error,data)=>{
-            if ( error ) {
+        (error, data) => {
+            if (error) {
                 console.error(error);
                 response.sendStatus(500) // Error de la BD no puede devolver la información que se le ha pedido
             } else {
@@ -20,27 +20,27 @@ export function getAllTasksController (request, response) {
 };
 
 // GET endpoint para consultar, que devuelve una tarea concreta
-export function getOneTaskController (request, response) {
-    try {
-        const task = tasks.find(item => item.id === parseInt(request.params.id));
-        if ( task ) {
-            response.json(task);
-        } else {
-            console.error(error);
-            response.sendStatus(404); // Error tarea no encontrada
-        }   
-    } catch (error) {
-        console.error(error);
-        response.sendStatus(400) // Error genérico del cliente
-    }
+export function getOneTaskController(request, response) {
+    //const task = tasks.find(item => item.id === parseInt(request.params.id));
+    taskss.get(
+        `SELECT id, description, done FROM tasks WHERE id= ${request.params.id}`,
+        (error, data) => {
+            if (error) {
+                console.error(error);
+                response.sendStatus(500) // Error de la BD no puede devolver la información que se le ha pedido
+            } else if (data) {
+                response.json(data)
+            }
+        }
+    )
 };
 
 // POST endpoint para crear/añadir, crea una tarea y la añade en la última posición
-export function postTaskController (request, response) {
+export function postTaskController(request, response) {
     const { description, done } = request.body;
     taskss.run(
         `INSERT INTO tasks(description, done) VALUES ("${description}", ${done})`,
-        (error)=>{
+        (error) => {
             if (error) {
                 console.error(error);
                 response.sendStatus(500) // Error de la Base de Datos
@@ -108,6 +108,23 @@ export function deleteTaskController (request, response) {
     )
     tasks.splice(oldTaskIdx, 1); // se elimina un elemento
     response.sendStatus(200)
+};
+*/
+
+/*
+export function getOneTaskController (request, response) {
+    try {
+        const task = tasks.find(item => item.id === parseInt(request.params.id));
+        if ( task ) {
+            response.json(task);
+        } else {
+            console.error(error);
+            response.sendStatus(404); // Error tarea no encontrada
+        }   
+    } catch (error) {
+        console.error(error);
+        response.sendStatus(400) // Error genérico del cliente
+    }
 };
 */
 

@@ -15,22 +15,23 @@ export function getAllUsersController (request, response) {
             }
         }
     )
-}
+};
 
 // GET endpoint para consultar, que devuelve un usuario concreto
 export function getOneUserController (request, response) {
-    try {
-        const user = users.find(item => item.id === parseInt(request.params.id));
-        if ( user ) {
-            response.json(user);
-        } else {
-            console.error(error);
-            response.sendStatus(404); // Error usuario no encontrado
-        }    
-    } catch (error) {
-        response.sendStatus(400) // Error genérico del cliente
-    }
-}
+    //const user = users.find(item => item.id === parseInt(request.params.id));
+    taskss.get(
+        `SELECT id, name, password FROM users WHERE id= ${request.params.id}`,
+        (error, data) => {
+            if (error) {
+                console.error(error);
+                response.sendStatus(500) // Error de la BD no puede devolver la información que se le ha pedido
+            } else if (data) {
+                response.json(data)
+            }
+        }
+    )
+};
 
 // POST endpoint para crear/añadir, crear usuarios
 export function postUserController (request, response) {
@@ -46,7 +47,7 @@ export function postUserController (request, response) {
             }
         }
     )
-}
+};
 
 // PUT endpoint para editar/modificar, modifica datos de un usuario
 export function putUserController(request, response) {
@@ -110,5 +111,21 @@ export function deleteUserController (request, response) {
     users.splice(oldUserIdx, 1); // se elimina un elemento
     response.sendStatus(200)
 };
+*/
+
+/*
+export function getOneUserController (request, response) {
+    try {
+        const user = users.find(item => item.id === parseInt(request.params.id));
+        if ( user ) {
+            response.json(user);
+        } else {
+            console.error(error);
+            response.sendStatus(404); // Error usuario no encontrado
+        }    
+    } catch (error) {
+        response.sendStatus(400) // Error genérico del cliente
+    }
+}
 */
 
