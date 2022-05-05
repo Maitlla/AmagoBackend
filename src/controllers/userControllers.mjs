@@ -2,10 +2,10 @@
 import { users } from "../models/userModels.mjs";
 import { taskss } from "../models/taskss.mjs"
 
-// GET que devuelve el id, el nombre y el password, guardados en la BD
+// GET que devuelve el id, el nombre, el password, y el email guardados en la BD
 export function getAllUsersController (request, response) {
     taskss.all(
-        `SELECT id, name, password FROM users`,
+        `SELECT id, name, password, email FROM users`,
         (error,data)=>{
             if ( error ) {
                 console.error(error);
@@ -21,7 +21,7 @@ export function getAllUsersController (request, response) {
 export function getOneUserController (request, response) {
     //const user = users.find(item => item.id === parseInt(request.params.id));
     taskss.get(
-        `SELECT id, name, password FROM users WHERE id= ${request.params.id}`,
+        `SELECT id, name, password, email FROM users WHERE id= ${request.params.id}`,
         (error, data) => {
             if (error) {
                 console.error(error);
@@ -35,9 +35,9 @@ export function getOneUserController (request, response) {
 
 // POST endpoint para crear/añadir, crear usuarios
 export function postUserController (request, response) {
-    const { name, password } = request.body;
+    const { name, password, email } = request.body;
     taskss.run(
-        `INSERT INTO users(name, password) VALUES ("${name}", "${password}")`,
+        `INSERT INTO users(name, password, email) VALUES ("${name}", "${password}", "${email}")`,
         (error)=>{
             if (error) {
                 console.error(error);

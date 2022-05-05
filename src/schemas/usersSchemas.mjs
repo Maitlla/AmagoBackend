@@ -12,6 +12,10 @@ export const userSchema = {
             description: "User secret",
             type: "string"
         },
+        email: {
+            description: "Must to be an email's address",
+            type: "string"
+        },
     },
     additionalProperties: false
 }

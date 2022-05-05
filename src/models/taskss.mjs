@@ -78,6 +78,7 @@ export function insertUser(userObject, callback) {
     taskss.run(sql, callback);
 }
 
+
 export function getUsers(callback) {
     taskss.all("SELECT id, name FROM users", callback);
 }
